@@ -17,14 +17,16 @@ def ask():
     user_message = request.json["message"]
 
     # Use OpenAI for smart response
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant who gives waste separation advice in Korea."},
-            {"role": "user", "content": user_message}
-        ]
-    )
-    reply = response.choices[0].message["content"]
+    client = OpenAI()
+
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": "당신은 대한민국의 분리배출 규정에 따라 정보를 제공하는 챗봇입니다."},
+        {"role": "user", "content": user_message}
+    ]
+)
+reply = response.choices[0].message.content
     return jsonify({"reply": reply})
 
 if __name__ == "__main__":
